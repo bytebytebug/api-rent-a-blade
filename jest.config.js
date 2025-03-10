@@ -5,6 +5,9 @@ const config = {
   roots: [
     "<rootDir>/src"
   ],
+  moduleNameMapper: {
+    "^#(.*)$": "<rootDir>/src/$1",
+  }
 };
 
 module.exports = config;

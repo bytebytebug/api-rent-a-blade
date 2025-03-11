@@ -1,6 +1,6 @@
 import { isUUID } from "#lib/validation";
 import { InvalidIDError } from "#core/rent/domain/errors/invalid-id";
-
+import { randomUUID } from "node:crypto"
 /**
  * Id object value.
  */
@@ -21,6 +21,12 @@ export class Id {
 
     equal(other: Id): boolean {
         return this.uuid === other.uuid;
+    }
+
+    static random(): Id {
+        let uuid = randomUUID();
+
+        return new Id(uuid);
     }
 }
 

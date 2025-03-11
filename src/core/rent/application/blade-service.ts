@@ -5,15 +5,12 @@ import { Name } from "#core/rent/domain/model/name";
 import { Price } from "#core/rent/domain/model/price";
 import { BladeRepository } from "#core/rent/application/repository/blade";
 
+
 type CreateBladeInput = {
     name: string;
     description: string;
     price: number;
 }
-
-type CreateBladeOutput =
-    | { type: "Seccess" }
-    | { type: "Failure", value: any }
 
 
 export class BladeService {

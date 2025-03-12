@@ -1,2 +1,5 @@
+import { Server } from "#core/rent/adapter/express/server";
 
-console.log("Hello World!")
+let server = new Server()
+
+server.start()

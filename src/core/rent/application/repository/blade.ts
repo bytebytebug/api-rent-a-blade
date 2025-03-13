@@ -8,6 +8,7 @@ export interface BladeRepository {
     list(limit: number, offset: number): Promise<Blade[]>;
     find(id: Id): Promise<Blade | null>
     update(blade: Blade): Promise<void>
+    delete(blade: Blade): Promise<void>;
 }
 
 export class BladeRepositoryFake implements BladeRepository {
@@ -31,9 +32,14 @@ export class BladeRepositoryFake implements BladeRepository {
     find(id: Id): Promise<Blade | null> {
         throw new Error("Method not implemented.");
     }
+
+    delete(blade: Blade): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
 }
 
 export class BladeRepositoryInMemory implements BladeRepository {
+
 
     protected blades: Blade[] = []
 
@@ -74,5 +80,13 @@ export class BladeRepositoryInMemory implements BladeRepository {
         }
 
         return null;
+    }
+
+    async delete(blade: Blade): Promise<void> {
+        let finded = this.find(blade.id)
+
+        if (!finded) throw new RepositoryError();
+
+        this.blades = this.blades.filter(b => !b.equal(blade))
     }
 }

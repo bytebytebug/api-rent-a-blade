@@ -97,3 +97,23 @@ test("It should list swords.", async () => {
     expect(list[4].name).toBe("Blade 29")
 
 })
+
+test("It should delete the blade.", async () => {
+    let id1 = await bladeService.createBlade({
+        name: "Master Sword",
+        description: "A nice sword.",
+        price: 1000.0,
+    })
+
+    let id2 = await bladeService.createBlade({
+        name: "Flame Sword",
+        description: "A very nice sword.",
+        price: 1200.0,
+    })
+    expect(await bladeService.count()).toBe(2)
+
+    await bladeService.delete(id1)
+
+    expect(await bladeService.count()).toBe(1)
+
+})

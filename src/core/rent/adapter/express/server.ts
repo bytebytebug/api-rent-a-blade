@@ -1,16 +1,13 @@
 import express, { Application } from "express";
+import { Routes } from "#core/rent/adapter/express/routes/api";
 
 export class Server {
     protected app: Application;
 
-    constructor() {
+    constructor(routes: Routes) {
         this.app = express()
 
-        this.app.get("/", (req, res)=> {
-            res.send({
-                message: "Hello World!"
-            })
-        })
+        routes.register(this.app)
     }
 
     start() {

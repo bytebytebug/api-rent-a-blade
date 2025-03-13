@@ -21,6 +21,7 @@ export interface IBladeService {
     createBlade(bladeData: CreateBladeInput): Promise<string>;
     count(): Promise<number>;
     find(uuid: string): Promise<BladeData | null>;
+    list(limmit: number, offset: number): Promise<BladeData[]>;
 }
 
 export class BladeService implements IBladeService {
@@ -29,6 +30,7 @@ export class BladeService implements IBladeService {
     constructor(bladeRepository: BladeRepository) {
         this.bladeRepository = bladeRepository;
     }
+
 
     async createBlade(bladeData: CreateBladeInput): Promise<string> {
         let id = Id.random()
@@ -60,9 +62,25 @@ export class BladeService implements IBladeService {
             price: blade.price.price,
         }
     }
+
+    async list(limmit: number, offset: number): Promise<BladeData[]> {
+        let blades = await this.bladeRepository.list(limmit, offset);
+
+        return blades.map(b => {
+            return {
+                id: b.id.uuid,
+                name: b.name.name,
+                description: b.description.description,
+                price: b.price.price,
+            }
+        })
+    }
 }
 
 export class BladeServiceFake implements IBladeService {
+    list(limmit: number, offset: number): Promise<BladeData[]> {
+        throw new Error("Method not implemented.");
+    }
     find(uuid: string): Promise<BladeData | null> {
         throw new Error("Method not implemented.");
     }

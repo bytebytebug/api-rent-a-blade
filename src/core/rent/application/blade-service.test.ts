@@ -63,3 +63,37 @@ test("It should return the blade.", async () => {
     expect(finded?.description).toBe("A very nice sword.")
     expect(finded?.price).toBe(1200.0)
 })
+
+
+test("It should list swords.", async () => {
+    let ids: string[] = [];
+
+    for (let i = 0; i < 30; i++) {
+        let id = await bladeService.createBlade({
+            name: `Blade ${i}`,
+            description: "Dangerous",
+            price: 1000.0,
+        })
+
+        ids.push(id);
+    }
+
+    let list = await bladeService.list(5, 0);
+
+    expect(list.length).toBe(5);
+    expect(list[0].name).toBe("Blade 0")
+    expect(list[4].name).toBe("Blade 4")
+
+    list = await bladeService.list(5, 5);
+
+    expect(list.length).toBe(5);
+    expect(list[0].name).toBe("Blade 5")
+    expect(list[4].name).toBe("Blade 9")
+
+    list = await bladeService.list(5, 25);
+
+    expect(list.length).toBe(5);
+    expect(list[0].name).toBe("Blade 25")
+    expect(list[4].name).toBe("Blade 29")
+
+})

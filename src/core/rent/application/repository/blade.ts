@@ -51,7 +51,7 @@ export class BladeRepositoryInMemory implements BladeRepository {
     async list(limit: number, offset: number): Promise<Blade[]> {
         return this.blades
             .filter((_blade, index) => {
-                return (offset < index) && (index < offset + limit)
+                return (offset <= index) && (index < offset + limit)
             })
             .map((blade) => {
                 return new Blade(blade.id, blade.name, blade.description, blade.price)

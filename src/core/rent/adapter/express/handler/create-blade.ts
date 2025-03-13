@@ -30,10 +30,9 @@ export class CreateBladeHandler {
         } catch (e) {
             if (e instanceof ParsingError) {
                 this.sendInputError(res);
-                return;
+            } else {
+                this.sendServerError(res)
             }
-
-            this.sendServerError(res)
         }
     }
 

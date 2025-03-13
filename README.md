@@ -2,12 +2,12 @@
 
 ## Install dependencies
 ```
-npm Install
+npm install
 ```
 
 ## Build
 ```
-npm run Install
+npm run build
 ```
 
 ## Start server

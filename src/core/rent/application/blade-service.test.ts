@@ -1,24 +1,15 @@
-import { Blade } from "#core/rent/domain/model/blade"
 import { BladeService } from "#core/rent/application/blade-service"
-import { BladeRepositoryFake } from "#core/rent/application/repository/blade"
+import { BladeRepositoryInMemory } from "#core/rent/application/repository/blade"
 
 
-function createSpyRepository() {
-    return new class extends BladeRepositoryFake {
-        blades: Blade[] = []
+let bladeService!: BladeService;
 
-        async create(blade: Blade): Promise<void> {
-            this.blades.push(blade)
-        }
-    }
-}
-
+beforeEach(() => {
+    let repo = new BladeRepositoryInMemory()
+    bladeService = new BladeService(repo)
+})
 
 test("It should save a new blade and return its ID", async () => {
-
-    let repo = createSpyRepository()
-
-    let bladeService = new BladeService(repo)
 
     let id = await bladeService.createBlade({
         name: "Master Sword",
@@ -26,6 +17,49 @@ test("It should save a new blade and return its ID", async () => {
         price: 1000.0,
     })
 
-    expect(repo.blades.length).toBe(1);
-    expect(repo.blades[0].id.uuid).toBe(id);
+    expect(await bladeService.count()).toBe(1);
+    expect(await bladeService.find(id)).not.toBeNull();
+})
+
+test("It should return the number of saved blades", async () => {
+
+    expect(await bladeService.count()).toBe(0)
+
+    let id1 = await bladeService.createBlade({
+        name: "Master Sword",
+        description: "A nice sword.",
+        price: 1000.0,
+    })
+
+    expect(await bladeService.count()).toBe(1)
+
+    let id2 = await bladeService.createBlade({
+        name: "Flame Sword",
+        description: "A very nice sword.",
+        price: 1200.0,
+    })
+
+    expect(await bladeService.count()).toBe(2)
+})
+
+
+test("It should return the blade.", async () => {
+
+    let id1 = await bladeService.createBlade({
+        name: "Master Sword",
+        description: "A nice sword.",
+        price: 1000.0,
+    })
+
+    let id2 = await bladeService.createBlade({
+        name: "Flame Sword",
+        description: "A very nice sword.",
+        price: 1200.0,
+    })
+
+    let finded = await bladeService.find(id2)
+
+    expect(finded?.name).toBe("Flame Sword")
+    expect(finded?.description).toBe("A very nice sword.")
+    expect(finded?.price).toBe(1200.0)
 })

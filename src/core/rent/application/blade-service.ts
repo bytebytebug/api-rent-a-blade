@@ -11,12 +11,19 @@ export type CreateBladeInput = {
     description: string;
     price: number;
 }
-
+export type BladeData = {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+}
 export interface IBladeService {
     createBlade(bladeData: CreateBladeInput): Promise<string>;
+    count(): Promise<number>;
+    find(uuid: string): Promise<BladeData | null>;
 }
 
-export class BladeService {
+export class BladeService implements IBladeService {
     protected bladeRepository: BladeRepository;
 
     constructor(bladeRepository: BladeRepository) {
@@ -34,10 +41,37 @@ export class BladeService {
 
         return id.uuid;
     }
+
+    async count(): Promise<number> {
+        return await this.bladeRepository.count()
+    }
+
+    async find(uuid: string): Promise<BladeData | null> {
+        let id = new Id(uuid);
+
+        let blade = await this.bladeRepository.find(id);
+
+        if (blade == null) return null;
+
+        return {
+            id: blade.id.uuid,
+            name: blade.name.name,
+            description: blade.description.description,
+            price: blade.price.price,
+        }
+    }
 }
 
-export class BladeServiceFake implements IBladeService{
+export class BladeServiceFake implements IBladeService {
+    find(uuid: string): Promise<BladeData | null> {
+        throw new Error("Method not implemented.");
+    }
+
     createBlade(bladeData: CreateBladeInput): Promise<string> {
+        throw new Error("Method not implemented.");
+    }
+
+    count(): Promise<number> {
         throw new Error("Method not implemented.");
     }
 }

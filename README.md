@@ -14,3 +14,6 @@ npm run build
 ```
 npm start
 ```
+
+### Disclaimer
+The code is not fully tested.

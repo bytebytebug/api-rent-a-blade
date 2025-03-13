@@ -25,20 +25,33 @@ export class CreateBladeHandler {
                 price,
             })
 
-            res.status(201).json({
-                id,
-            })
+            this.sendId(res, id);
+
         } catch (e) {
             if (e instanceof ParsingError) {
-                res.status(400).send({
-                    message: "input error"
-                })
+                this.sendInputError(res);
                 return;
             }
 
-            res.status(500).send({
-                message: "Server error"
-            })
+            this.sendServerError(res)
         }
+    }
+
+    private sendId(res: Response, id: string) {
+        res.status(201).json({
+            id,
+        })
+    }
+
+    private sendInputError(res: Response) {
+        res.status(400).json({
+            message: "input error"
+        })
+    }
+
+    private sendServerError(res: Response) {
+        res.status(500).json({
+            message: "Server error"
+        })
     }
 }

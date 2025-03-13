@@ -24,6 +24,7 @@ export interface IBladeService {
     find(uuid: string): Promise<BladeData | null>;
     list(limmit: number, offset: number): Promise<BladeData[]>;
     delete(id: string): Promise<void>
+    update(id: string, name: string, description: string, price: number): Promise<void>
 }
 
 export class BladeService implements IBladeService {
@@ -31,7 +32,8 @@ export class BladeService implements IBladeService {
 
     constructor(bladeRepository: BladeRepository) {
         this.bladeRepository = bladeRepository;
-    }   
+    }
+
 
 
     async createBlade(bladeData: CreateBladeInput): Promise<string> {
@@ -87,14 +89,27 @@ export class BladeService implements IBladeService {
 
         this.bladeRepository.delete(blade)
     }
+
+    async update(uuid: string, name: string, description: string, price: number): Promise<void> {
+        let id = new Id(uuid);
+
+        let blade = await this.bladeRepository.find(id);
+        if (blade == null) throw new ApplicationError()
+
+        blade.rename(new Name(name));
+        blade.changeDescription(new Description(description));
+        blade.chagePrice(new Price(price))
+
+        await this.bladeRepository.update(blade);
+    }
 }
 
 export class BladeServiceFake implements IBladeService {
-   
+
     list(limmit: number, offset: number): Promise<BladeData[]> {
         throw new Error("Method not implemented.");
     }
-    
+
     find(uuid: string): Promise<BladeData | null> {
         throw new Error("Method not implemented.");
     }
@@ -108,6 +123,10 @@ export class BladeServiceFake implements IBladeService {
     }
 
     delete(id: string): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+
+    update(id: string, name: string, description: string, price: number): Promise<void> {
         throw new Error("Method not implemented.");
     }
 }

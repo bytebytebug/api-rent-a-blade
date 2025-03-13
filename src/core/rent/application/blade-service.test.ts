@@ -117,3 +117,19 @@ test("It should delete the blade.", async () => {
     expect(await bladeService.count()).toBe(1)
 
 })
+
+test("It should update the blade's data.", async () => {
+    let id = await bladeService.createBlade({
+        name: "Master Sword",
+        description: "A nice sword.",
+        price: 1000.0,
+    })
+
+    await bladeService.update(id, "Flame Axe", "A flaming axe.", 499.90)
+
+    let blade = await bladeService.find(id)
+
+    expect(blade?.name).toBe("Flame Axe")
+    expect(blade?.description).toBe("A flaming axe.")
+    expect(blade?.price).toBe(499.90)
+})

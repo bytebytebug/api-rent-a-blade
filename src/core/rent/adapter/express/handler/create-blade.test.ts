@@ -1,5 +1,6 @@
 import { BladeService, BladeServiceFake, CreateBladeInput, IBladeService } from "#core/rent/application/blade-service"
 import { BladeRepositoryInMemory } from "#core/rent/application/repository/blade"
+import { CreateBladeInputParser } from "../../parser/blade"
 import { CreateBladeHandler } from "./create-blade"
 import express, { Application } from "express"
 import request from "supertest"
@@ -17,7 +18,8 @@ let app: Application
 beforeEach(() => {
     let bladeRepository = new BladeRepositoryInMemory();
     let bladeService = new BladeService(bladeRepository)
-    let handler = new CreateBladeHandler(bladeService);
+    let inputParser = new CreateBladeInputParser()
+    let handler = new CreateBladeHandler(bladeService, inputParser);
     app = express()
     app.post("/blades", express.json(), (req, res) => handler.execute(req, res))
 })

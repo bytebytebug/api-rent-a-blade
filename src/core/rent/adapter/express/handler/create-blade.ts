@@ -1,15 +1,20 @@
-import { BladeService, IBladeService } from "#core/rent/application/blade-service";
+import { IBladeService } from "#core/rent/application/blade-service";
 import { Request, Response } from "express";
+import { CreateBladeInputParser } from "#core/rent/adapter/parser/blade";
+
 
 export class CreateBladeHandler {
-    bladeService: IBladeService;
+    private bladeService: IBladeService;
+    private parser: CreateBladeInputParser;
 
-    constructor(bladeService: IBladeService) {
+    constructor(bladeService: IBladeService, parser: CreateBladeInputParser) {
         this.bladeService = bladeService;
+        this.parser = parser;
     }
 
     async execute(req: Request, res: Response) {
-        let { name, description, price } = req.body;
+
+        let { name, description, price } = this.parser.parse(req.body);
 
         let id = await this.bladeService.createBlade({
             name,

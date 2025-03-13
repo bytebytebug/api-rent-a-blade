@@ -6,12 +6,15 @@ import { Price } from "#core/rent/domain/model/price";
 import { BladeRepository } from "#core/rent/application/repository/blade";
 
 
-type CreateBladeInput = {
+export type CreateBladeInput = {
     name: string;
     description: string;
     price: number;
 }
 
+export interface IBladeService {
+    createBlade(bladeData: CreateBladeInput): Promise<string>;
+}
 
 export class BladeService {
     protected bladeRepository: BladeRepository;
@@ -30,5 +33,11 @@ export class BladeService {
         await this.bladeRepository.create(blade);
 
         return id.uuid;
+    }
+}
+
+export class BladeServiceFake implements IBladeService{
+    createBlade(bladeData: CreateBladeInput): Promise<string> {
+        throw new Error("Method not implemented.");
     }
 }

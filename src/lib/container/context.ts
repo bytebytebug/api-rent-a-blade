@@ -15,7 +15,9 @@ class ContextImpl implements Context {
     map = new Map<Constructor<any>, any>()
 
     insert<T>(classDef: Constructor<T>, value: T): void {
-        if (!(value instanceof classDef)) throw new ClassDefAndValueMismatchError();
+        if (!(value instanceof classDef)) {
+            throw new ClassDefAndValueMismatchError();
+        }
 
         this.map.set(classDef, value);
     }

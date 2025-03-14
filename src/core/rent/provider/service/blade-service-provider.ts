@@ -1,18 +1,18 @@
+import { BladeRepositoryPrisma } from "#core/rent/adapter/prisma/blade-repository";
 import { BladeService } from "#core/rent/application/blade-service";
-import { BladeRepository } from "#core/rent/application/repository/blade";
 import { Context } from "#lib/container/context";
-import { Provider, Wrapper } from "#lib/container/provider";
-import { BladeRepositoryProvider } from "../repository/blade-repository-provider";
+import { Provider } from "#lib/container/provider";
+import { BladeRepositoryPrismaProvider } from "../repository/blade-repository-prisma-provider";
 
 
 type Deps = {
-    bladeRepositoryProvider: Provider<Wrapper<BladeRepository>>;
+    bladeRepositoryProvider: Provider<BladeRepositoryPrisma>;
 }
 
 
 function defaultDeps(): Deps {
     return {
-        bladeRepositoryProvider: new BladeRepositoryProvider()
+        bladeRepositoryProvider: new BladeRepositoryPrismaProvider()
     }
 }
 
@@ -24,7 +24,7 @@ export class BladeServiceProvider implements Provider<BladeService> {
 
         await deps.bladeRepositoryProvider.boot(ctx)
 
-        let bladeRepository = deps.bladeRepositoryProvider.load(ctx).unwrap()
+        let bladeRepository = deps.bladeRepositoryProvider.load(ctx)
 
         ctx.insert(BladeService, new BladeService(bladeRepository))
     }

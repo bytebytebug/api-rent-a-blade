@@ -24,7 +24,7 @@ export class Routes {
 
         server.get("/api/v1/blades/", (req, res) => h.listBladesHandler.execute(req, res))
         server.get("/api/v1/blades/:id(" + uuidRegex + ")", (req, res) => h.findBladeHandler.execute(req, res))
-        server.get("api/v1/blades/count", (req, res) => h.countBladesHandler.execute(req, res))
+        server.get("/api/v1/blades/count", (req, res) => h.countBladesHandler.execute(req, res))
         server.post("/api/v1/blades/", express.json(), (req, res) => h.createBladeHandler.execute(req, res))
         server.put("/api/v1/blades/:id(" + uuidRegex + ")", express.json(), (req, res) => h.updateBladeHandler.execute(req, res))
         server.delete("/api/v1/blades/:id(" + uuidRegex + ")", express.json(), (req, res) => h.deleteBladeHandler.execute(req, res))

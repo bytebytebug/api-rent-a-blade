@@ -1,19 +1,18 @@
 import express, { Application } from "express"
 import request from "supertest"
 import { CountBladesHandler } from "./count-blade"
-import { BladeRepositoryFake, BladeRepositoryInMemory } from "#core/rent/application/repository/blade"
-import { Id } from "#core/rent/domain/model/id"
+import { BladeServiceFake } from "#core/rent/application/blade-service"
 
 let app: Application
 
 beforeEach(() => {
     app = express()
-    let bladeRepository = new class extends BladeRepositoryFake {
+    let bladeService = new class extends BladeServiceFake {
         async count(): Promise<number> {
             return 12;
         }
     };
-    let countHandler = new CountBladesHandler(bladeRepository);
+    let countHandler = new CountBladesHandler(bladeService);
     app.get("/blades/count", (req, res) => countHandler.execute(req, res))
 })
 

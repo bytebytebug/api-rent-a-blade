@@ -1,4 +1,3 @@
-import { Server } from "#core/rent/adapter/express/server";
 import { ServerProvider } from "#core/rent/provider/server";
 import { createContext } from "#lib/container/context";
 

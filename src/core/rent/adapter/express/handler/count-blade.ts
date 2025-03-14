@@ -1,20 +1,20 @@
-import { BladeRepository } from "#core/rent/application/repository/blade";
+import { IBladeService } from "#core/rent/application/blade-service";
 import { Request, Response } from "express";
 
 export class CountBladesHandler {
 
 
-    private bladeRepository: BladeRepository;
+    private bladeService: IBladeService;
 
 
-    constructor(bladeRepository: BladeRepository) {
-        this.bladeRepository = bladeRepository;
+    constructor(bladeService: IBladeService) {
+        this.bladeService = bladeService;
     }
 
 
     async execute(_req: Request, res: Response) {
         try {
-            let count = await this.bladeRepository.count();
+            let count = await this.bladeService.count();
 
             this.sendCount(res, count)
         } catch (e) {

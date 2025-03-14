@@ -1,4 +1,4 @@
-import { isUUID } from "#lib/validation";
+import { isUUID } from "#lib/validation/validator";
 import { InvalidIDError } from "#core/rent/domain/errors/invalid-id";
 import { randomUUID } from "node:crypto"
 /**

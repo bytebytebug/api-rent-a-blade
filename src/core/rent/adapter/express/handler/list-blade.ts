@@ -2,7 +2,7 @@ import { Handler } from "#core/rent/adapter/express/handler/handler"
 import { BladeData, IBladeService } from "#core/rent/application/blade-service";
 import { Request, Response } from "express";
 
-export class FindBladeHandler implements Handler {
+export class ListBladesHandler implements Handler {
 
 
     private bladeService: IBladeService;

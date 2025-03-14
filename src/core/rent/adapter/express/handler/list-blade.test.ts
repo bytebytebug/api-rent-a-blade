@@ -1,5 +1,5 @@
 import express, { Application } from "express";
-import { FindBladeHandler } from "./find-blade";
+import { ListBladesHandler } from "./list-blade";
 import request from "supertest"
 import { BladeData, BladeService, BladeServiceFake } from "#core/rent/application/blade-service";
 
@@ -31,12 +31,13 @@ beforeEach(() => {
             ]
         }
     }
-    let findBladeHandler = new FindBladeHandler(bladeService)
+    let findBladeHandler = new ListBladesHandler(bladeService)
     app = express()
     app.get("/blades/", (req, res) => findBladeHandler.execute(req, res))
 })
 
-test("", async () => {
+
+test("It should list blades.", async () => {
     let res = await request(app)
         .get("/blades")
 

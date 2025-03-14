@@ -22,7 +22,7 @@ export interface IBladeService {
     createBlade(bladeData: CreateBladeInput): Promise<string>;
     count(): Promise<number>;
     find(uuid: string): Promise<BladeData | null>;
-    list(limmit: number, offset: number): Promise<BladeData[]>;
+    list(limit: number, offset: number): Promise<BladeData[]>;
     delete(id: string): Promise<void>
     update(id: string, name: string, description: string, price: number): Promise<void>
 }
@@ -67,8 +67,8 @@ export class BladeService implements IBladeService {
         }
     }
 
-    async list(limmit: number, offset: number): Promise<BladeData[]> {
-        let blades = await this.bladeRepository.list(limmit, offset);
+    async list(limit: number, offset: number): Promise<BladeData[]> {
+        let blades = await this.bladeRepository.list(limit, offset);
 
         return blades.map(b => {
             return {

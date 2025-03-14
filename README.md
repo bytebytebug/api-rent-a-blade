@@ -15,7 +15,7 @@ npm install
 npm run build
 ```
 
-## Aply migration
+## Apply migration
 ```
 npx prisma migrate deploy
 ```

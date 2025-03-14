@@ -1,5 +1,10 @@
 # api-rent-a-blade
 
+## Env
+```
+cp .env.example .env
+```
+
 ## Install dependencies
 ```
 npm install
@@ -8,6 +13,11 @@ npm install
 ## Build
 ```
 npm run build
+```
+
+## Aply migration
+```
+npx prisma migrate deploy
 ```
 
 ## Start server
